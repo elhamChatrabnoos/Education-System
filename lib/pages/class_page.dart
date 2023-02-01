@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../core/constants.dart';
 import '../models/class_model.dart';
 import '../providers/class_provider.dart';
 import '../views/custom_dialog.dart';
-import '../views/list_view_class.dart';
+import '../views/custom_list_item_class.dart';
 
 class ClassPage extends StatefulWidget {
   const ClassPage({Key? key}) : super(key: key);
@@ -42,8 +43,11 @@ class _ClassPageState extends State<ClassPage> {
       context: context,
       builder: (context) => CustomDialog(isAddAction: true),
     ).then((value) {
-      ClassModel model =
-          ClassModel(value['className'], value['classUnit'], value['teacherName']);
+      ClassModel model = ClassModel(
+        className: value['className'],
+        unitNumber: value['classUnit'],
+        teacherName: value['teacherName'],
+      );
       provider.addClass(model);
     });
   }
@@ -54,30 +58,33 @@ class _ClassPageState extends State<ClassPage> {
       itemCount: classList.length,
       itemBuilder: (context, index) {
         return CustomListItemClass(
+          checkboxValue: classList[index].classSelected!,
           unitNumber: classList[index].unitNumber!,
           textName: classList[index].className!,
           teacherName: classList[index].teacherName!,
-          closeOnTap: () => provider.deleteClass(classList[index]),
-          editOnTap: () => _showEditDialog(context, index, provider),
+          onDeleteTap: () => provider.deleteClass(classList[index]),
+          onEditTap: () => _showEditDialog(context, index, provider),
         );
       },
     );
   }
 
-  Future<void> _showEditDialog(BuildContext context, int index, ClassesProvider provider) {
+  Future<void> _showEditDialog(
+      BuildContext context, int index, ClassesProvider provider) {
     return showDialog(
-            context: context,
-            builder: (context) => CustomDialog(
+        context: context,
+        builder: (context) => CustomDialog(
               isAddAction: false,
-                  className: classList[index].className,
-                  classTeacher: classList[index].teacherName,
-                  classUnit: classList[index].unitNumber,
-                )).then((value) {
-          ClassModel model = ClassModel(
-              value['className'],
-              value['classUnit'],
-              value['teacherName']);
-          provider.editClass(model, index);
-        });
+              className: classList[index].className,
+              classTeacher: classList[index].teacherName,
+              classUnit: classList[index].unitNumber,
+            )).then((value) {
+      ClassModel model = ClassModel(
+        className: value['className'],
+        unitNumber: value['classUnit'],
+        teacherName: value['teacherName'],
+      );
+      provider.editClass(model, index);
+    });
   }
 }

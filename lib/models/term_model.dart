@@ -5,11 +5,6 @@ class TermModel{
   List<ClassModel>? classList;
 
   TermModel(this.name, this.classList);
-}
 
-List<TermModel> termList = [
-  TermModel('Term1', classList),
-  TermModel('Term2', classList),
-  TermModel('Term3', classList),
-  TermModel('Term4', classList),
-];
+  TermModel.simpleConstructor();
+}

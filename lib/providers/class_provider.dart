@@ -18,4 +18,9 @@ class ClassesProvider extends ChangeNotifier{
       notifyListeners();
     }
 
+    void selectClass(int classIndex, bool isChecked){
+      classList[classIndex].classSelected = isChecked;
+      notifyListeners();
+    }
+
 }

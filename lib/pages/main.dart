@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Constants.primaryColor,
         focusColor: Colors.white
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

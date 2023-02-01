@@ -59,10 +59,16 @@ class SignUpPage extends StatelessWidget {
   }
 
   Row agreeToTerms() {
+    bool? checked = false;
     return Row(
-      children: const [
-        CustomCheckbox(),
-        Text('I agree to the Terms & Condition'),
+      children: [
+        CustomCheckbox(
+          checkboxValue: checked,
+          onChecked: (value) {
+            checked = value!;
+          },
+        ),
+        const Text('I agree to the Terms & Condition'),
       ],
     );
   }

@@ -1,28 +1,26 @@
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:flutter/material.dart';
 
-class CustomCheckbox extends StatefulWidget {
-  const CustomCheckbox({Key? key}) : super(key: key);
+class CustomCheckbox extends StatelessWidget {
+  const CustomCheckbox(
+      {Key? key, this.onChecked, required this.checkboxValue, this.scaleSize})
+      : super(key: key);
 
-  @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  bool checkboxValue = false;
+  final Function(bool?)? onChecked;
+  final bool checkboxValue;
+  final double? scaleSize;
 
   @override
   Widget build(BuildContext context) {
-    return Checkbox(
+    return Transform.scale(
+      scale: scaleSize ?? 1,
+      child: Checkbox(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         side: BorderSide(color: Constants.primaryColor, width: 1),
         checkColor: Colors.blueAccent,
         value: checkboxValue,
-        onChanged: (value) {
-          setState(() {
-            checkboxValue = value!;
-          });
-        }
-     );
+        onChanged: onChecked,
+      ),
+    );
   }
 }
