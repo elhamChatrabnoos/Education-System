@@ -1,5 +1,6 @@
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/pages/home_page.dart';
+import 'package:amuzesh_system/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

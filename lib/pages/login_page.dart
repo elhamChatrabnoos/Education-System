@@ -1,23 +1,15 @@
 import 'package:amuzesh_system/core/constants.dart';
+import 'package:amuzesh_system/pages/home_page.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:amuzesh_system/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 import '../providers/login_sign_up_provider.dart';
 import '../views/custom_button.dart';
 import '../views/custom_text_field.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  String loginPageTitle = 'Login Account';
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +24,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  bool secureText = true;
 
   Padding loginBody(BuildContext context, LoginSignUpProvider provider) {
     return Padding(
@@ -51,17 +41,21 @@ class _LoginPageState extends State<LoginPage> {
           Constants.littleSizeBox,
           passwordTextField(provider),
           Constants.normalSizeBox,
-          buttons(context),
+          buttons(context, provider),
         ],
       ),
     );
   }
 
-  Row buttons(BuildContext context) {
+  Row buttons(BuildContext context, LoginSignUpProvider provider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            },
             buttonWidth: 150,
             textColor: Colors.white,
             buttonText: 'Login',
@@ -100,11 +94,14 @@ class _LoginPageState extends State<LoginPage> {
   Center titleTextImage() {
     return Center(
         child: Column(
-      children: [
-        Constants.littleSizeBox,
-        CustomText(text: loginPageTitle, textSize: 35),
-        Image.asset('assets/images/student.png', alignment: Alignment.center),
-      ],
-    ));
+          children: [
+            Constants.littleSizeBox,
+            CustomText(text: 'Login Account', textSize: 35),
+            Image.asset(
+                'assets/images/student.png', alignment: Alignment.center),
+          ],
+        ));
   }
+
+
 }

@@ -7,7 +7,6 @@ class ClassModel {
 
   static List<ClassModel> listOfClass = [];
 
-
   ClassModel({this.className, this.unitNumber, this.teacherName, this.classSelected});
 
 }

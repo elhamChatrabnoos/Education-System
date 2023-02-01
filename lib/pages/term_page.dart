@@ -7,16 +7,17 @@ import 'package:provider/provider.dart';
 import '../views/custom_list_item.dart';
 
 class TermPage extends StatelessWidget {
-  const TermPage({Key? key, required this.termProvider, this.backFromOtherPage = false}) : super(key: key);
+  TermPage({Key? key, this.termPageProvider, this.backFromOtherPage = false})
+      : super(key: key);
 
-  final TermPageProvider termProvider;
-  final bool? backFromOtherPage;
+  TermPageProvider? termPageProvider;
+  final bool backFromOtherPage;
 
   @override
   Widget build(BuildContext context) {
-    return backFromOtherPage!
+    return backFromOtherPage
         ? ChangeNotifierProvider.value(
-            value: termProvider,
+            value: termPageProvider,
             child: Scaffold(
                 body: _listsItemBody(),
                 floatingActionButton: _floatingButton(context)))
@@ -27,15 +28,22 @@ class TermPage extends StatelessWidget {
                 floatingActionButton: _floatingButton(context)));
   }
 
-  FloatingActionButton _floatingButton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddEditTerm()));
-      },
-      backgroundColor: Constants.primaryColor,
-      child: const Icon(Icons.add, color: Colors.white),
-    );
+  Widget _floatingButton(
+      BuildContext context) {
+    return Consumer<TermPageProvider>(builder: (context, value, child) {
+        return FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddEditTerm(
+                      termPageProvider: value,
+                    )));
+          },
+          backgroundColor: Constants.primaryColor,
+          child: const Icon(Icons.add, color: Colors.white),
+        );
+      },);
   }
 
   Widget _listsItemBody() {
