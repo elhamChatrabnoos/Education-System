@@ -1,4 +1,5 @@
 import 'package:amuzesh_system/core/constants.dart';
+import 'package:amuzesh_system/models/class_model.dart';
 import 'package:amuzesh_system/pages/add_edit_term_page.dart';
 import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,34 +20,38 @@ class TermPage extends StatelessWidget {
         ? ChangeNotifierProvider.value(
             value: termPageProvider,
             child: Scaffold(
-                body: _listsItemBody(),
-                floatingActionButton: _floatingButton(context)))
+                body: _listItemsBody(),
+                floatingActionButton: _floatingButton(context)
+            ))
         : ChangeNotifierProvider(
             create: (BuildContext context) => TermPageProvider(),
             child: Scaffold(
-                body: _listsItemBody(),
-                floatingActionButton: _floatingButton(context)));
+                body: _listItemsBody(),
+                floatingActionButton: _floatingButton(context)
+            ));
   }
 
-  Widget _floatingButton(
-      BuildContext context) {
-    return Consumer<TermPageProvider>(builder: (context, value, child) {
+  Widget _floatingButton(BuildContext context) {
+    return Consumer<TermPageProvider>(
+      builder: (context, value, child) {
         return FloatingActionButton(
           onPressed: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => AddEditTerm(
-                      termPageProvider: value,
-                    )));
+                          inputClassList: classList,
+                          termPageProvider: value,
+                        )));
           },
           backgroundColor: Constants.primaryColor,
           child: const Icon(Icons.add, color: Colors.white),
         );
-      },);
+      },
+    );
   }
 
-  Widget _listsItemBody() {
+  Widget _listItemsBody() {
     return Consumer<TermPageProvider>(
       builder: (context, provider, child) {
         return GridView.builder(
@@ -70,8 +75,16 @@ class TermPage extends StatelessWidget {
         child: CustomListItem(
             onDeleteTap: () => provider.deleteTerm(provider.termList[index]),
             textName: provider.termList[index].name!,
-            classNumber: provider.termList[index].classList!.length.toString()),
+            classNumber: provider
+                .getClassOfTerm(provider.termList[index].classList!)
+                .length
+                .toString()),
         onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddEditTerm())));
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddEditTerm(
+                      termPageProvider: provider,
+                      inputClassList: provider.termList[index].classList!,
+                    ))));
   }
 }

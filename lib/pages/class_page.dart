@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../core/constants.dart';
 import '../models/class_model.dart';
 import '../providers/class_provider.dart';
@@ -38,20 +37,6 @@ class _ClassPageState extends State<ClassPage> {
     );
   }
 
-  Future<void> _showAddDialog(BuildContext context, ClassesProvider provider) {
-    return showDialog(
-      context: context,
-      builder: (context) => CustomDialog(isAddAction: true),
-    ).then((value) {
-      ClassModel model = ClassModel(
-        className: value['className'],
-        unitNumber: value['classUnit'],
-        teacherName: value['teacherName'],
-      );
-      provider.addClass(model);
-    });
-  }
-
   ListView listViewItems(ClassesProvider provider) {
     return ListView.builder(
       padding: const EdgeInsets.all(10),
@@ -69,6 +54,21 @@ class _ClassPageState extends State<ClassPage> {
     );
   }
 
+  Future<void> _showAddDialog(BuildContext context, ClassesProvider provider) {
+    return showDialog(
+      context: context,
+      builder: (context) => CustomDialog(isAddAction: true),
+    ).then((value) {
+      ClassModel model = ClassModel(
+        className: value['className'],
+        unitNumber: value['classUnit'],
+        teacherName: value['teacherName'],
+        classSelected: false,
+      );
+      provider.addClass(model);
+    });
+  }
+
   Future<void> _showEditDialog(
       BuildContext context, int index, ClassesProvider provider) {
     return showDialog(
@@ -83,6 +83,7 @@ class _ClassPageState extends State<ClassPage> {
         className: value['className'],
         unitNumber: value['classUnit'],
         teacherName: value['teacherName'],
+        classSelected: false,
       );
       provider.editClass(model, index);
     });

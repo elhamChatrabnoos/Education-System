@@ -6,30 +6,62 @@ class TermPageProvider extends ChangeNotifier {
   // a model with empty list
   TermModel _selectedTerm = TermModel('Term1', ClassModel.listOfClass);
   int _selectedTermIndex = 0;
-  List<ClassModel> listOfClass = [];
+  List<ClassModel> listOfClass = classList;
+  List<TermModel> _termList = [];
+  List<ClassModel>? classListTerm1 = [];
+  List<ClassModel>? classListTerm2 = [];
+  List<ClassModel>? classListTerm3 = [];
+  List<ClassModel>? classListTerm4 = [];
 
-  List<TermModel> termList = [
-    TermModel('Term1', ClassModel.listOfClass),
-    TermModel('Term2', ClassModel.listOfClass),
-    TermModel('Term3', ClassModel.listOfClass),
-    TermModel('Term4', ClassModel.listOfClass),
-  ];
+  TermPageProvider() {
+    // classListTerm4 = List.from(classList);
+    _termList = [
+      TermModel('Term1', classListTerm1),
+      TermModel('Term2', classListTerm2),
+      TermModel('Term3', classListTerm3),
+      TermModel('Term4', classListTerm4),
+    ];
+
+  }
 
   void deleteTerm(TermModel term) {
     termList.remove(term);
     notifyListeners();
   }
 
-  void addRemoveClassToTerm(ClassModel classModel, bool isAdd) {
-    isAdd ? listOfClass.add(classModel) : listOfClass.remove(classModel);
+  void editeTerm(TermModel term) {
+    notifyListeners();
   }
 
-  void editeTerm(TermModel term) {
-    termList.forEach((element) {
-      if (element.name == term.name) {
-        element.classList = listOfClass;
+  bool searchItemInClassList(List<ClassModel> classOfTermList,  ClassModel classModel){
+    return classOfTermList.contains(classModel);
+  }
+
+  void selectClassForTerm(ClassModel classModel, bool isChecked,
+      List<ClassModel> classOfTermList) {
+    print(isChecked);
+    int index = classOfTermList.indexOf(classModel);
+
+    if (index >= 0) {
+      if (!isChecked) {
+        classOfTermList.remove(classModel);
       }
-    });
+    } else {
+      classModel.classSelected = true;
+      classOfTermList.add(classModel);
+    }
+
+    notifyListeners();
+  }
+
+  List<ClassModel> getClassOfTerm(List<ClassModel> classList) {
+    List<ClassModel> listOfClass = [];
+    for (int i = 0; i < classList.length; i++) {
+      if (classList[i].classSelected!) {
+        listOfClass.add(classList[i]);
+      }
+    }
+    return listOfClass;
   }
 
   int get selectedTermIndex => _selectedTermIndex;
@@ -43,5 +75,11 @@ class TermPageProvider extends ChangeNotifier {
   set selectedTerm(TermModel value) {
     _selectedTerm = value;
     notifyListeners();
+  }
+
+  List<TermModel> get termList => _termList;
+
+  set termList(List<TermModel> value) {
+    _termList = value;
   }
 }

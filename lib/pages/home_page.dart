@@ -1,3 +1,4 @@
+import 'package:amuzesh_system/models/class_model.dart';
 import 'package:amuzesh_system/models/term_model.dart';
 import 'package:amuzesh_system/pages/class_page.dart';
 import 'package:amuzesh_system/pages/term_page.dart';
@@ -11,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../core/constants.dart';
 import 'add_edit_term_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key, this.termPageProvider, this.backFromOtherPage = false})
       : super(key: key);
 
@@ -19,10 +20,27 @@ class HomePage extends StatelessWidget {
   final bool? backFromOtherPage;
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(!widget.backFromOtherPage!){
+      print('initstateeeee');
+      TermPageProvider();
+    }
+
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return backFromOtherPage!
+    return widget.backFromOtherPage!
         ? ChangeNotifierProvider.value(
-            value: termPageProvider,
+            value: widget.termPageProvider,
             child: DefaultTabController(
                 length: 2,
                 child: Scaffold(appBar: appBarOptions(), body: wholeBody())))
@@ -41,9 +59,9 @@ class HomePage extends StatelessWidget {
           // controller: _tabController,
           children: <Widget>[
             Scaffold(
-                body: _listsItemBody(),
+                body: _listOfTerms(),
                 floatingActionButton: _floatingButton(context)),
-            ClassPage()
+            const ClassPage()
           ],
         );
       },
@@ -60,6 +78,7 @@ class HomePage extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => AddEditTerm(
                           termPageProvider: value,
+                          inputClassList: classList,
                         )));
           },
           backgroundColor: Constants.primaryColor,
@@ -69,7 +88,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _listsItemBody() {
+  Widget _listOfTerms() {
     return Consumer<TermPageProvider>(
       builder: (context, provider, child) {
         return GridView.builder(
@@ -80,14 +99,14 @@ class HomePage extends StatelessWidget {
           ),
           itemCount: provider.termList.length,
           itemBuilder: (context, index) {
-            return eachListItem(provider, index, context);
+            return _eachTerm(provider, index, context);
           },
         );
       },
     );
   }
 
-  InkWell eachListItem(
+  InkWell _eachTerm(
       TermPageProvider provider, int index, BuildContext context) {
     return InkWell(
         child: CustomListItem(
@@ -95,7 +114,13 @@ class HomePage extends StatelessWidget {
             textName: provider.termList[index].name!,
             classNumber: provider.termList[index].classList!.length.toString()),
         onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddEditTerm())));
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddEditTerm(
+                  termPageProvider: provider,
+                  selectedTerm: provider.termList[index],
+                  inputClassList: provider.termList[index].classList!,
+                ))));
   }
 
   AppBar appBarOptions() {
@@ -108,4 +133,8 @@ class HomePage extends StatelessWidget {
           ]),
     );
   }
+
+
 }
+
+
