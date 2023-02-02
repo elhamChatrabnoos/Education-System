@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     if(!widget.backFromOtherPage!){
-      print('initstateeeee');
       TermPageProvider();
     }
 

@@ -8,13 +8,14 @@ class TermPageProvider extends ChangeNotifier {
   int _selectedTermIndex = 0;
   List<ClassModel> listOfClass = classList;
   List<TermModel> _termList = [];
-  List<ClassModel>? classListTerm1 = [];
-  List<ClassModel>? classListTerm2 = [];
-  List<ClassModel>? classListTerm3 = [];
-  List<ClassModel>? classListTerm4 = [];
 
   TermPageProvider() {
-    // classListTerm4 = List.from(classList);
+
+    List<ClassModel>? classListTerm1 = [];
+    List<ClassModel>? classListTerm2 = [];
+    List<ClassModel>? classListTerm3 = [];
+    List<ClassModel>? classListTerm4 = [];
+
     _termList = [
       TermModel('Term1', classListTerm1),
       TermModel('Term2', classListTerm2),
@@ -47,7 +48,6 @@ class TermPageProvider extends ChangeNotifier {
         classOfTermList.remove(classModel);
       }
     } else {
-      classModel.classSelected = true;
       classOfTermList.add(classModel);
     }
 

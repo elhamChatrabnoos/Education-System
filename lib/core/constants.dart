@@ -11,6 +11,7 @@ class Constants{
 
   static Color textFieldColor = const Color.fromARGB(255, 213, 232, 255);
   static Color backColor = const Color.fromARGB(255, 215, 215, 215);
+
   static  MaterialColor primaryColor = MaterialColor(
     const Color.fromARGB(255, 28, 25, 98).value,
     <int, Color>{

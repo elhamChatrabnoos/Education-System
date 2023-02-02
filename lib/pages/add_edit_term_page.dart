@@ -26,20 +26,21 @@ class AddEditTerm extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: termPageProvider,
       child: Scaffold(
-          backgroundColor: Constants.backColor,
+          backgroundColor: Colors.grey,
           resizeToAvoidBottomInset: true,
           appBar: AppBar(),
-          body: wholeBody(context)),
+          body: wholeBody(context)
+      ),
     );
   }
 
   Widget wholeBody(BuildContext context) {
     return Column(
       children: [
-        _classList(context),
-        _dropdownButton(context),
-        _saveData(context),
         Constants.littleSizeBox,
+        _dropdownButton(context),
+        _classList(context),
+        _saveData(context),
       ],
     );
   }
@@ -104,12 +105,14 @@ class AddEditTerm extends StatelessWidget {
       builder: (context, providerTerm, child) {
         return Container(
           margin: EdgeInsets.all(20),
-          color: Constants.primaryColor,
+          color: Colors.black45,
           height: MediaQuery.of(context).size.height / 1.6,
           child: ListView.builder(
             itemCount: classList.length,
             itemBuilder: (context, int index) {
-              return _classListItemEdit(providerTerm, index);
+              return selectedTerm == null
+                  ? _classListItemAdd(providerTerm, index)
+                  : _classListItemEdit(providerTerm, index);
             },
           ),
         );
@@ -117,6 +120,18 @@ class AddEditTerm extends StatelessWidget {
     );
   }
 
+  Widget _classListItemAdd(TermPageProvider providerTerm, int index) {
+    bool isChecked = false;
+    return CustomListItemClass(
+        isEditableActive: false,
+        onCheckbox: (checked) {
+
+        },
+        checkboxValue: isChecked,
+        unitNumber: classList[index].unitNumber!,
+        textName: classList[index].className!,
+        teacherName: classList[index].teacherName!);
+  }
 
   Widget _classListItemEdit(TermPageProvider providerTerm, int index) {
     return CustomListItemClass(
