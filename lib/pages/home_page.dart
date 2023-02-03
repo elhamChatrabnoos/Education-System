@@ -7,6 +7,7 @@ import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:amuzesh_system/views/custom_list_item.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../core/constants.dart';
@@ -24,15 +25,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     super.initState();
 
-    if(!widget.backFromOtherPage!){
+    if (!widget.backFromOtherPage!) {
       TermPageProvider();
     }
-
   }
 
   @override
@@ -57,9 +56,7 @@ class _HomePageState extends State<HomePage> {
         return TabBarView(
           // controller: _tabController,
           children: <Widget>[
-            Scaffold(
-                body: _listOfTerms(),
-                floatingActionButton: _floatingButton(context)),
+            _termPage(context),
             const ClassPage()
           ],
         );
@@ -67,18 +64,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Scaffold _termPage(BuildContext context) {
+    return Scaffold(
+              body: _listOfTerms(),
+              floatingActionButton: _floatingButton(context));
+  }
+
   Widget _floatingButton(BuildContext context) {
     return Consumer<TermPageProvider>(
-      builder: (context, value, child) {
+      builder: (context, provider, child) {
         return FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddEditTerm(
-                          termPageProvider: value,
-                          inputClassList: classList,
-                        )));
+            if (!provider.addTerm()) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(Constants.extraTermMsg)));
+            }
           },
           backgroundColor: Constants.primaryColor,
           child: const Icon(Icons.add, color: Colors.white),
@@ -116,10 +116,11 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(
                 builder: (context) => AddEditTerm(
-                  termPageProvider: provider,
-                  selectedTerm: provider.termList[index],
-                  inputClassList: provider.termList[index].classList!,
-                ))));
+                      termPageProvider: provider,
+                      selectedTerm: provider.termList[index],
+                      inputClassList: provider
+                          .getClassOfTerm(provider.termList[index].classList!),
+                    ))));
   }
 
   AppBar appBarOptions() {
@@ -132,8 +133,4 @@ class _HomePageState extends State<HomePage> {
           ]),
     );
   }
-
-
 }
-
-

@@ -19,7 +19,7 @@ class AddEditTerm extends StatelessWidget {
 
   TermPageProvider termPageProvider;
   List<ClassModel> inputClassList;
-  final TermModel? selectedTerm;
+  TermModel? selectedTerm;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,7 @@ class AddEditTerm extends StatelessWidget {
           backgroundColor: Colors.grey,
           resizeToAvoidBottomInset: true,
           appBar: AppBar(),
-          body: wholeBody(context)
-      ),
+          body: wholeBody(context)),
     );
   }
 
@@ -59,17 +58,26 @@ class AddEditTerm extends StatelessWidget {
   ElevatedButton _saveButton(TermPageProvider provider, BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-          provider.editeTerm(provider.selectedTerm);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(
-                  termPageProvider: provider,
-                  backFromOtherPage: true,
-                ),
-              ));
+          if (provider.editeTerm(selectedTerm!, inputClassList)) {
+            _backHomePage(context, provider);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(Constants.classLimitationMsg)));
+          }
         },
-        child: Text('save'));
+        child: const Text('save'));
+  }
+
+  Future<dynamic> _backHomePage(
+      BuildContext context, TermPageProvider provider) {
+    return Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            termPageProvider: provider,
+            backFromOtherPage: true,
+          ),
+        ));
   }
 
   Widget _dropdownButton(BuildContext context) {
@@ -85,10 +93,12 @@ class AddEditTerm extends StatelessWidget {
               child: DropdownButton<TermModel>(
                 hint: const Text('select term'),
                 // if any term click to edit disable this button
-                onChanged: selectedTerm == null ? (TermModel? value) {
-                  helper = true;
-                  provider.selectedTerm = value!;
-                } : null,
+                onChanged: selectedTerm == null
+                    ? (TermModel? value) {
+                        helper = true;
+                        provider.selectedTerm = value!;
+                      }
+                    : null,
                 value: !helper ? selectedTerm : provider.selectedTerm,
                 items: provider.termList.map((TermModel item) {
                   return DropdownMenuItem<TermModel>(
@@ -104,15 +114,13 @@ class AddEditTerm extends StatelessWidget {
     return Consumer<TermPageProvider>(
       builder: (context, providerTerm, child) {
         return Container(
-          margin: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(20),
           color: Colors.black45,
           height: MediaQuery.of(context).size.height / 1.6,
           child: ListView.builder(
             itemCount: classList.length,
             itemBuilder: (context, int index) {
-              return selectedTerm == null
-                  ? _classListItemAdd(providerTerm, index)
-                  : _classListItemEdit(providerTerm, index);
+              return _classListEditable(providerTerm, index);
             },
           ),
         );
@@ -120,31 +128,17 @@ class AddEditTerm extends StatelessWidget {
     );
   }
 
-  Widget _classListItemAdd(TermPageProvider providerTerm, int index) {
-    bool isChecked = false;
-    return CustomListItemClass(
-        isEditableActive: false,
-        onCheckbox: (checked) {
-
-        },
-        checkboxValue: isChecked,
-        unitNumber: classList[index].unitNumber!,
-        textName: classList[index].className!,
-        teacherName: classList[index].teacherName!);
-  }
-
-  Widget _classListItemEdit(TermPageProvider providerTerm, int index) {
+  Widget _classListEditable(TermPageProvider providerTerm, int index) {
     return CustomListItemClass(
         isEditableActive: false,
         onCheckbox: (checked) {
           providerTerm.selectClassForTerm(
               classList[index], checked!, inputClassList);
         },
-        checkboxValue: providerTerm.searchItemInClassList(
-            inputClassList, classList[index]),
+        checkboxValue:
+            providerTerm.searchInClassOfTerm(inputClassList, classList[index]),
         unitNumber: classList[index].unitNumber!,
         textName: classList[index].className!,
         teacherName: classList[index].teacherName!);
   }
-
 }

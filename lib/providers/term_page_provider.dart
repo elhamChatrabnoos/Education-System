@@ -4,25 +4,22 @@ import 'package:flutter/cupertino.dart';
 
 class TermPageProvider extends ChangeNotifier {
   // a model with empty list
-  TermModel _selectedTerm = TermModel('Term1', ClassModel.listOfClass);
+  TermModel _selectedTerm = TermModel('Term 1', ClassModel.listOfClass);
   int _selectedTermIndex = 0;
-  List<ClassModel> listOfClass = classList;
   List<TermModel> _termList = [];
 
   TermPageProvider() {
-
     List<ClassModel>? classListTerm1 = [];
     List<ClassModel>? classListTerm2 = [];
     List<ClassModel>? classListTerm3 = [];
     List<ClassModel>? classListTerm4 = [];
 
     _termList = [
-      TermModel('Term1', classListTerm1),
-      TermModel('Term2', classListTerm2),
-      TermModel('Term3', classListTerm3),
-      TermModel('Term4', classListTerm4),
+      TermModel('Term 1', classListTerm1),
+      TermModel('Term 2', classListTerm2),
+      TermModel('Term 3', classListTerm3),
+      TermModel('Term 4', classListTerm4),
     ];
-
   }
 
   void deleteTerm(TermModel term) {
@@ -30,39 +27,76 @@ class TermPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editeTerm(TermModel term) {
-    notifyListeners();
+
+  bool addTerm() {
+    List<ClassModel> classList = [];
+    // search in termList to check target term for add
+    for (int i = 0; i < _termList.length + 1; ++i) {
+      bool thereIs = false;
+      TermModel termModel = TermModel('Term ${i + 1}', classList);
+      for (var j = 0; j < _termList.length; ++j) {
+        if (termList[j].name == termModel.name) {
+          thereIs = true;
+          break;
+        }
+      }
+      if (!thereIs) {
+        if(i < 10){
+          termList.add(termModel);
+          notifyListeners();
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-  bool searchItemInClassList(List<ClassModel> classOfTermList,  ClassModel classModel){
+
+  bool editeTerm(TermModel term, List<ClassModel> classList) {
+    int unitNumber = 0;
+    for (int i = 0; i < classList.length; ++i) {
+      unitNumber += classList[i].unitNumber!;
+    }
+    //// if selected unit is more than 12 or lower than 20 unit save it
+    if (unitNumber >= 12 && unitNumber <= 20) {
+      term.classList = classList;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+
+  bool searchInClassOfTerm(
+      List<ClassModel> classOfTermList, ClassModel classModel) {
+    print(classOfTermList.length);
     return classOfTermList.contains(classModel);
   }
 
-  void selectClassForTerm(ClassModel classModel, bool isChecked,
-      List<ClassModel> classOfTermList) {
-    print(isChecked);
-    int index = classOfTermList.indexOf(classModel);
 
+  void selectClassForTerm(
+      ClassModel classModel, bool isChecked, List<ClassModel> classOfTerm) {
+    int index = classOfTerm.indexOf(classModel);
     if (index >= 0) {
       if (!isChecked) {
-        classOfTermList.remove(classModel);
+        classOfTerm.remove(classModel);
       }
     } else {
-      classOfTermList.add(classModel);
+      classOfTerm.add(classModel);
     }
-
     notifyListeners();
   }
+
 
   List<ClassModel> getClassOfTerm(List<ClassModel> classList) {
     List<ClassModel> listOfClass = [];
     for (int i = 0; i < classList.length; i++) {
-      if (classList[i].classSelected!) {
-        listOfClass.add(classList[i]);
-      }
+      listOfClass.add(classList[i]);
     }
     return listOfClass;
   }
+
+////////// getters and setters
 
   int get selectedTermIndex => _selectedTermIndex;
 
