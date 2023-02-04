@@ -52,7 +52,7 @@ class CustomListItem extends StatelessWidget {
             Row(
               children: [
                 const CustomText(
-                    text: 'clsass number: ',
+                    text: 'unit number: ',
                     textSize: 15,
                     fontWeight: FontWeight.normal),
                 CustomText(

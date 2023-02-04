@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 
 class Constants{
 
-  static String  extraTermMsg = 'you cant add more than 10 term! finish your classes maximum at 10 term';
-  static String  classLimitationMsg = 'please select at least 12 unit and lower than 20 unit';
-
   static SizedBox bigSizeBox = const SizedBox(height: 100);
   static SizedBox normalSizeBox = const SizedBox(height: 50);
   static SizedBox normalSizeBox2 = const SizedBox(height: 30);
@@ -14,7 +11,6 @@ class Constants{
 
   static Color textFieldColor = const Color.fromARGB(255, 213, 232, 255);
   static Color backColor = const Color.fromARGB(255, 215, 215, 215);
-
   static  MaterialColor primaryColor = MaterialColor(
     const Color.fromARGB(255, 28, 25, 98).value,
     <int, Color>{

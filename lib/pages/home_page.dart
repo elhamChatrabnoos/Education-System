@@ -1,13 +1,9 @@
-import 'package:amuzesh_system/models/class_model.dart';
-import 'package:amuzesh_system/models/term_model.dart';
+import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/pages/class_page.dart';
-import 'package:amuzesh_system/pages/term_page.dart';
-import 'package:amuzesh_system/providers/class_provider.dart';
 import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:amuzesh_system/views/custom_list_item.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../core/constants.dart';
@@ -55,10 +51,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, provider, child) {
         return TabBarView(
           // controller: _tabController,
-          children: <Widget>[
-            _termPage(context),
-            const ClassPage()
-          ],
+          children: <Widget>[_termPage(context), const ClassPage()],
         );
       },
     );
@@ -66,8 +59,7 @@ class _HomePageState extends State<HomePage> {
 
   Scaffold _termPage(BuildContext context) {
     return Scaffold(
-              body: _listOfTerms(),
-              floatingActionButton: _floatingButton(context));
+        body: _listOfTerms(), floatingActionButton: _floatingButton(context));
   }
 
   Widget _floatingButton(BuildContext context) {
@@ -77,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             if (!provider.addTerm()) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(Constants.extraTermMsg)));
+                  SnackBar(content: Text(AppTexts.extraTermMsg)));
             }
           },
           backgroundColor: Constants.primaryColor,
@@ -98,20 +90,21 @@ class _HomePageState extends State<HomePage> {
           ),
           itemCount: provider.termList.length,
           itemBuilder: (context, index) {
-            return _eachTerm(provider, index, context);
+            return _eachTermItem(provider, index, context);
           },
         );
       },
     );
   }
 
-  InkWell _eachTerm(
+  InkWell _eachTermItem(
       TermPageProvider provider, int index, BuildContext context) {
     return InkWell(
         child: CustomListItem(
             onDeleteTap: () => provider.deleteTerm(provider.termList[index]),
             textName: provider.termList[index].name!,
-            classNumber: provider.termList[index].classList!.length.toString()),
+            classNumber:
+                provider.getTermUnits(provider.termList[index]).toString()),
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/models/class_model.dart';
 import 'package:amuzesh_system/models/term_model.dart';
@@ -62,7 +63,7 @@ class AddEditTerm extends StatelessWidget {
             _backHomePage(context, provider);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(Constants.classLimitationMsg)));
+                SnackBar(content: Text(AppTexts.classLimitationMsg)));
           }
         },
         child: const Text('save'));

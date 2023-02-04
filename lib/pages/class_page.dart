@@ -59,13 +59,12 @@ class _ClassPageState extends State<ClassPage> {
       context: context,
       builder: (context) => CustomDialog(isAddAction: true),
     ).then((value) {
-      ClassModel model = ClassModel(
-        className: value['className'],
-        unitNumber: value['classUnit'],
-        teacherName: value['teacherName'],
-        classSelected: false,
-      );
-      provider.addClass(model);
+        ClassModel model = ClassModel(
+          className: value['className'],
+          unitNumber: value['classUnit'],
+          teacherName: value['teacherName'],
+          classSelected: false);
+        provider.addClass(model);
     });
   }
 

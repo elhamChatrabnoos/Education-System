@@ -22,6 +22,7 @@ class TermPageProvider extends ChangeNotifier {
     ];
   }
 
+
   void deleteTerm(TermModel term) {
     termList.remove(term);
     notifyListeners();
@@ -94,6 +95,15 @@ class TermPageProvider extends ChangeNotifier {
       listOfClass.add(classList[i]);
     }
     return listOfClass;
+  }
+
+
+  int getTermUnits(TermModel termModel){
+    int termUnits = 0;
+    for (var element in termModel.classList!) {
+      termUnits += element.unitNumber!;
+    }
+    return termUnits;
   }
 
 ////////// getters and setters

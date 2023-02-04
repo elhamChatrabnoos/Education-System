@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({Key? key,
-    this.onChanged,
-    this.icon,
-    this.correctFormat,
-    this.secure,
-    this.onTapIcon, this.hintText,
-    this.initialValue,
-    this.inputFormatters})
+  const CustomTextField(
+      {Key? key,
+      this.onChanged,
+      this.icon,
+      this.correctFormat,
+      this.secure,
+      this.onTapIcon,
+      this.hintText,
+      this.initialValue,
+      this.inputFormatters,
+      this.errorMsg,
+      this.checkValidator})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -21,6 +25,8 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
+  final String? errorMsg;
+  final String? Function(String?)? checkValidator;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,9 @@ class CustomTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       initialValue: initialValue,
       onChanged: onChanged,
+      validator: checkValidator,
       decoration: InputDecoration(
+        errorText: errorMsg,
         hintText: hintText ?? '',
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 0, color: Constants.textFieldColor),
@@ -36,9 +44,7 @@ class CustomTextField extends StatelessWidget {
         border: InputBorder.none,
         filled: true,
         fillColor: Constants.textFieldColor,
-        suffixIcon: InkWell(
-            onTap: onTapIcon,
-            child: icon ?? const SizedBox()),
+        suffixIcon: InkWell(onTap: onTapIcon, child: icon ?? const SizedBox()),
       ),
       obscureText: secure ?? false,
     );
