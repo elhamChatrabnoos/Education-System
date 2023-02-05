@@ -33,21 +33,21 @@ class CustomDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
-              checkValidator: _classNameValid,
+              checkValidation: _classNameValid,
               initialValue: className,
               onChanged: (value) => className = value,
               hintText: AppTexts.classNameError,
             ),
             Constants.littleSizeBox,
             CustomTextField(
-              checkValidator: _teacherNameValid,
+              checkValidation: _teacherNameValid,
               initialValue: classTeacher,
               onChanged: (value) => classTeacher = value,
               hintText: AppTexts.teacherNameHint,
             ),
             Constants.littleSizeBox,
             CustomTextField(
-              checkValidator: _unitNumberValid,
+              checkValidation: _unitNumberValid,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               initialValue: classUnit != null ? classUnit.toString() : '',
               onChanged: (value) => classUnit = int.parse(value!),
@@ -91,15 +91,5 @@ class CustomDialog extends StatelessWidget {
         'classUnit': classUnit
       });
     }
-    // if (className != null && classTeacher != null && classUnit != null) {
-    //   Navigator.pop(context, {
-    //     'className': className,
-    //     'teacherName': classTeacher,
-    //     'classUnit': classUnit
-    //   });
-    // } else {
-    //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(SnackBar(content: Text(Constants.fillClassFieldMsg)));
-    // }
   }
 }

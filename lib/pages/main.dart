@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Constants.primaryColor,
           focusColor: Colors.white,
           scaffoldBackgroundColor: Constants.backColor),
-      home: HomePage(),
+      home: SignUpPage(),
     );
   }
 }

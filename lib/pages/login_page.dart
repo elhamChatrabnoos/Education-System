@@ -18,6 +18,7 @@ class LoginPage extends StatelessWidget {
       child: Consumer<LoginSignUpProvider>(
         builder: (context, provider, child) {
           return Scaffold(
+              backgroundColor: Colors.white,
               resizeToAvoidBottomInset: false,
               body: loginBody(context, provider));
         },
@@ -94,14 +95,11 @@ class LoginPage extends StatelessWidget {
   Center titleTextImage() {
     return Center(
         child: Column(
-          children: [
-            Constants.littleSizeBox,
-            CustomText(text: 'Login Account', textSize: 35),
-            Image.asset(
-                'assets/images/student.png', alignment: Alignment.center),
-          ],
-        ));
+      children: [
+        Constants.littleSizeBox,
+        CustomText(text: 'Login Account', textSize: 35),
+        Image.asset('assets/images/student.png', alignment: Alignment.center),
+      ],
+    ));
   }
-
-
 }

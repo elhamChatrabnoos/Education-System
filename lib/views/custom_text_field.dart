@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
       this.initialValue,
       this.inputFormatters,
       this.errorMsg,
-      this.checkValidator})
+      this.checkValidation})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -26,7 +26,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
   final String? errorMsg;
-  final String? Function(String?)? checkValidator;
+  final String? Function(String?)? checkValidation;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class CustomTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       initialValue: initialValue,
       onChanged: onChanged,
-      validator: checkValidator,
+      validator: checkValidation,
       decoration: InputDecoration(
         errorText: errorMsg,
         hintText: hintText ?? '',

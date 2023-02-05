@@ -1,3 +1,4 @@
+import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,9 @@ import 'login_page.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
+  final _formKey = GlobalKey<FormState>();
+  String? _passwordText;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -19,105 +23,122 @@ class SignUpPage extends StatelessWidget {
       child: Consumer<LoginSignUpProvider>(
         builder: (context, provider, child) {
           return Scaffold(
+              backgroundColor: Colors.white,
               resizeToAvoidBottomInset: false,
-              body: bodyOfPage(context, provider)
-          );
+              body: _bodyOfPage(context, provider));
         },
       ),
     );
   }
 
-  Padding bodyOfPage(BuildContext context, LoginSignUpProvider provider) {
+  Padding _bodyOfPage(BuildContext context, LoginSignUpProvider provider) {
     return Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Constants.normalSizeBox,
-          const CustomText(text: 'Create Account', textSize: 30),
-          Constants.normalSizeBox,
-          const CustomText(text: 'Email'),
-          Constants.littleSizeBox,
-          emailTextField(provider),
-          Constants.normalSizeBox2,
-          const CustomText(text: 'Password'),
-          Constants.littleSizeBox,
-          passwordTextField(provider),
-          Constants.normalSizeBox2,
-          const CustomText(text: 'Confirm password'),
-          Constants.littleSizeBox,
-          confPassTextField(provider),
-          Constants.littleSizeBox,
-          agreeToTerms(),
-          Constants.normalSizeBox2,
-          createAcountButton(provider, context),
-          Constants.littleSizeBox,
-          signUpWithGoogle(),
-        ],
-      ),
-    );
+        padding:
+            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Constants.normalSizeBox,
+              CustomText(text: AppTexts.createAccountBtn, textSize: 30),
+              Constants.normalSizeBox,
+              CustomText(text: AppTexts.emailTxt),
+              Constants.littleSizeBox,
+              _emailTextField(provider),
+              Constants.normalSizeBox2,
+              CustomText(text: AppTexts.passwordTxt),
+              Constants.littleSizeBox,
+              _passwordTextField(provider),
+              Constants.normalSizeBox2,
+              CustomText(text: AppTexts.confPassTxt),
+              Constants.littleSizeBox,
+              _confPassTextField(provider),
+              Constants.littleSizeBox,
+              _agreeToTerms(),
+              Constants.normalSizeBox2,
+              _createAccountButton(provider, context),
+              Constants.littleSizeBox,
+              _signUpWithGoogle(),
+            ],
+          ),
+        ));
   }
 
-  Row agreeToTerms() {
+  Row _agreeToTerms() {
     bool? checked = false;
     return Row(
       children: [
         CustomCheckbox(
           checkboxValue: checked,
-          onChecked: (value) {
-            checked = value!;
-          },
+          onChecked: (value) => checked = value!,
         ),
-        const Text('I agree to the Terms & Condition'),
+        Text(AppTexts.agreeCheckBox),
       ],
     );
   }
 
-  CustomButton createAcountButton(
+  CustomButton _createAccountButton(
       LoginSignUpProvider provider, BuildContext context) {
     return CustomButton(
       textColor: Colors.white,
-      buttonText: 'Create account',
+      buttonText: AppTexts.createAccountBtn,
       buttonColor: Colors.blue,
       onTap: () {
-        if (provider.correctEmail) {
+        if (_formKey.currentState!.validate()) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginPage()));
-        } else {}
+        }
       },
     );
   }
 
-  CustomButton signUpWithGoogle() {
+  CustomButton _signUpWithGoogle() {
     return CustomButton(
         textColor: Colors.blue,
-        buttonText: 'Sign up with Google',
+        buttonText: AppTexts.signUpGoogleBtn,
         buttonColor: Colors.white);
   }
 
-  Widget confPassTextField(LoginSignUpProvider provider) {
+  Widget _confPassTextField(LoginSignUpProvider provider) {
     return CustomTextField(
+      checkValidation: (value) {
+        if (!provider.checkConfirmPass(value!, _passwordText!)) {
+          return AppTexts.confPassError;
+        }
+      },
       icon: const Icon(Icons.remove_red_eye),
       onTapIcon: () => provider.showHideConfPass(),
       secure: provider.secureTextConfPass,
     );
   }
 
-  Widget passwordTextField(LoginSignUpProvider provider) {
+  Widget _passwordTextField(LoginSignUpProvider provider) {
     return CustomTextField(
-      icon: const Icon(Icons.remove_red_eye),
-      onTapIcon: () {
-        provider.showHidePass();
+      checkValidation: (value) {
+        if (!provider.checkPasswordFormat(value!)) {
+          return AppTexts.passwordError;
+        }
       },
+      onChanged: (p0) => _passwordText = p0,
+      icon: const Icon(Icons.remove_red_eye),
+      onTapIcon: () => provider.showHidePass(),
       secure: provider.secureTextPass,
     );
   }
 
-  Widget emailTextField(LoginSignUpProvider provider) {
+  Widget _emailTextField(LoginSignUpProvider provider) {
     return CustomTextField(
+      checkValidation: (value) {
+        if (!provider.checkEmailValidation(value!)) {
+          return AppTexts.emailError;
+        }
+      },
       secure: false,
       onChanged: (value) => provider.checkEmailValidation(value!),
-      icon: provider.correctEmail ? const Icon(Icons.check) : null,
+      icon: provider.correctEmail
+          ? const Icon(Icons.check)
+          : const Icon(Icons.email_outlined),
     );
   }
 }
