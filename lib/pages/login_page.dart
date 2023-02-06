@@ -1,3 +1,4 @@
+import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/pages/home_page.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
@@ -9,7 +10,10 @@ import '../views/custom_button.dart';
 import '../views/custom_text_field.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+
+  String _password = '';
+  String _email = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +32,26 @@ class LoginPage extends StatelessWidget {
 
   Padding loginBody(BuildContext context, LoginSignUpProvider provider) {
     return Padding(
-      padding: const EdgeInsets.all(40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          titleTextImage(),
-          Constants.normalSizeBox,
-          const CustomText(text: 'Email'),
-          Constants.littleSizeBox,
-          emailTextField(provider),
-          Constants.normalSizeBox2,
-          const CustomText(text: 'Password'),
-          Constants.littleSizeBox,
-          passwordTextField(provider),
-          Constants.normalSizeBox,
-          buttons(context, provider),
-        ],
-      ),
-    );
+        padding: const EdgeInsets.all(40),
+        child: Form(
+          key: provider.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleTextImage(),
+              Constants.normalSizeBox,
+              CustomText(text: AppTexts.emailTxt),
+              Constants.littleSizeBox,
+              emailTextField(provider),
+              Constants.normalSizeBox2,
+              CustomText(text: AppTexts.passwordTxt),
+              Constants.littleSizeBox,
+              passwordTextField(provider),
+              Constants.normalSizeBox,
+              buttons(context, provider),
+            ],
+          ),
+        ));
   }
 
   Row buttons(BuildContext context, LoginSignUpProvider provider) {
@@ -53,42 +59,56 @@ class LoginPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
-            onTap: () {
+          buttonWidth: 150,
+          textColor: Constants.loginTextColor,
+          buttonText: AppTexts.loginBtnTxt,
+          buttonColor: Constants.loginBtnColor,
+          onTap: () {
+            if (provider.checkFieldValidation()) {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
-            buttonWidth: 150,
-            textColor: Colors.white,
-            buttonText: 'Login',
-            buttonColor: Colors.blue),
+            }
+          },
+        ),
         CustomButton(
-            buttonWidth: 150,
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpPage()));
-            },
-            textColor: Colors.blue,
-            buttonText: 'Sign up',
-            buttonColor: Colors.white)
+          buttonWidth: 150,
+          textColor: Constants.loginBtnColor,
+          buttonText: AppTexts.signUpBtnTxt,
+          buttonColor: Constants.loginTextColor,
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SignUpPage()));
+          },
+        )
       ],
     );
   }
 
   Widget passwordTextField(LoginSignUpProvider provider) {
     return CustomTextField(
+      checkValidation: (value) {
+        if (value!.isEmpty) {
+          return AppTexts.incorrectPassMsg;
+        }
+      },
       icon: const Icon(Icons.remove_red_eye),
       onTapIcon: () {
         provider.showHidePass();
       },
+      onChanged: (p0) => _password = p0!,
       secure: provider.secureTextPass,
     );
   }
 
   Widget emailTextField(LoginSignUpProvider provider) {
     return CustomTextField(
+      checkValidation: (value) {
+        if (!provider.checkEmailValidation(value!) || value.isEmpty) {
+          return AppTexts.unavailableEmailMsg;
+        }
+      },
       secure: false,
-      onChanged: (value) => provider.checkEmailValidation(value!),
-      icon: provider.correctEmail ? const Icon(Icons.check) : null,
+      icon: const Icon(Icons.email_outlined),
     );
   }
 
@@ -97,7 +117,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
       children: [
         Constants.littleSizeBox,
-        CustomText(text: 'Login Account', textSize: 35),
+        CustomText(text: AppTexts.loginTitle, textSize: 35),
         Image.asset('assets/images/student.png', alignment: Alignment.center),
       ],
     ));

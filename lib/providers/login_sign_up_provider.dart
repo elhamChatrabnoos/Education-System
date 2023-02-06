@@ -5,12 +5,27 @@ class LoginSignUpProvider extends ChangeNotifier {
   bool _secureTextPass = true;
   bool _secureTextConfPass = true;
   bool _checkboxValue = false;
+  String _registeredEmail = '';
+  String _registeredPassword = '';
+  bool _checkedAgreement = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  bool checkFieldValidation() {
+    return _formKey.currentState!.validate();
+  }
+
+  bool checkInformation(String email, String password) {
+    return email == _registeredEmail;
+        // && password == _registeredPassword;
+  }
 
   bool checkEmailValidation(String value) {
     _correctEmail =
         (value.contains('@gmail.com') || value.contains('@yahoo.com'))
             ? true
             : false;
+
     notifyListeners();
     return _correctEmail;
   }
@@ -22,8 +37,10 @@ class LoginSignUpProvider extends ChangeNotifier {
     return regExp.hasMatch(inputValue);
   }
 
-  bool checkConfirmPass(String firstInput, String secondInput) {
-    return firstInput == secondInput && firstInput.isNotEmpty;
+  bool checkConfirmPass(String? firstInput, String secondInput) {
+    bool samePass = firstInput == secondInput && firstInput!.isNotEmpty;
+    _registeredPassword = (samePass ? firstInput : '');
+    return samePass;
   }
 
   void showHidePass() {
@@ -36,7 +53,32 @@ class LoginSignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+  bool checkAgreement(bool value){
+    _checkedAgreement = value;
+    notifyListeners();
+    return _checkedAgreement;
+  }
+
+
+
   ////// getters and setters
+  GlobalKey<FormState> get formKey => _formKey;
+
+  String get registeredEmail => _registeredEmail;
+
+
+  bool get checked => _checkedAgreement;
+
+  set checked(bool value) {
+    _checkedAgreement = value;
+  }
+
+  set registeredEmail(String value) {
+    _registeredEmail = value;
+  }
+
   bool get correctEmail => _correctEmail;
 
   set correctEmail(bool value) {
@@ -59,5 +101,11 @@ class LoginSignUpProvider extends ChangeNotifier {
 
   set checkboxValue(bool value) {
     _checkboxValue = value;
+  }
+
+  String get registeredPassword => _registeredPassword;
+
+  set registeredPassword(String value) {
+    _registeredPassword = value;
   }
 }

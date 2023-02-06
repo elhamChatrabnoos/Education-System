@@ -9,8 +9,11 @@ class Constants{
   static SizedBox littleSizeBox = const SizedBox(height: 10);
   static SizedBox bigSizeBoxWidth = const SizedBox(width: 100);
 
-  static Color textFieldColor = const Color.fromARGB(255, 213, 232, 255);
+  static Color textFieldColor = const Color.fromARGB(255, 222, 222, 232);
   static Color backColor = const Color.fromARGB(255, 215, 215, 215);
+  static Color loginBtnColor = const Color.fromARGB(255, 28, 25, 98);
+  static Color loginTextColor = const Color.fromARGB(255, 255, 255, 255);
+
   static  MaterialColor primaryColor = MaterialColor(
     const Color.fromARGB(255, 28, 25, 98).value,
     <int, Color>{

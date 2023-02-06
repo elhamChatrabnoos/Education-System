@@ -13,8 +13,7 @@ import 'login_page.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>();
-  String? _passwordText;
+  String? _passwordText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class SignUpPage extends StatelessWidget {
         padding:
             const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
-          key: _formKey,
+          key: provider.formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -55,7 +54,7 @@ class SignUpPage extends StatelessWidget {
               Constants.littleSizeBox,
               _confPassTextField(provider),
               Constants.littleSizeBox,
-              _agreeToTerms(),
+              _agreeToTerms(provider),
               Constants.normalSizeBox2,
               _createAccountButton(provider, context),
               Constants.littleSizeBox,
@@ -65,13 +64,12 @@ class SignUpPage extends StatelessWidget {
         ));
   }
 
-  Row _agreeToTerms() {
-    bool? checked = false;
+  Row _agreeToTerms(LoginSignUpProvider provider) {
     return Row(
       children: [
         CustomCheckbox(
-          checkboxValue: checked,
-          onChecked: (value) => checked = value!,
+          checkboxValue: provider.checked,
+          onChecked: (value) => provider.checkAgreement(value!),
         ),
         Text(AppTexts.agreeCheckBox),
       ],
@@ -83,11 +81,11 @@ class SignUpPage extends StatelessWidget {
     return CustomButton(
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
-      buttonColor: Colors.blue,
+      buttonColor: Constants.loginBtnColor,
       onTap: () {
-        if (_formKey.currentState!.validate()) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
+        if (provider.checkFieldValidation()) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
         }
       },
     );
@@ -95,7 +93,7 @@ class SignUpPage extends StatelessWidget {
 
   CustomButton _signUpWithGoogle() {
     return CustomButton(
-        textColor: Colors.blue,
+        textColor: Constants.loginBtnColor,
         buttonText: AppTexts.signUpGoogleBtn,
         buttonColor: Colors.white);
   }
@@ -107,6 +105,7 @@ class SignUpPage extends StatelessWidget {
           return AppTexts.confPassError;
         }
       },
+      onChanged: (value) => provider.checkConfirmPass(value!, _passwordText!),
       icon: const Icon(Icons.remove_red_eye),
       onTapIcon: () => provider.showHideConfPass(),
       secure: provider.secureTextConfPass,
