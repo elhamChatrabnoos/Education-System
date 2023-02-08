@@ -1,12 +1,13 @@
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/models/class_model.dart';
-import 'package:amuzesh_system/pages/add_edit_term_page.dart';
 import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../core/app_texts.dart';
-import '../views/custom_list_item.dart';
+import '../../core/app_texts.dart';
+import '../custom_list_item.dart';
+import 'add_edit_term_page.dart';
+
 
 class TermPage extends StatelessWidget {
   const TermPage({Key? key}) : super(key: key);

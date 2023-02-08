@@ -2,13 +2,13 @@ import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/models/class_model.dart';
 import 'package:amuzesh_system/models/term_model.dart';
-import 'package:amuzesh_system/pages/home/home_view.dart';
-import 'package:amuzesh_system/pages/term_page.dart';
 import 'package:amuzesh_system/providers/class_provider.dart';
 import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:amuzesh_system/views/custom_list_item_class.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'home/home_view.dart';
 
 class AddEditTerm extends StatelessWidget {
   AddEditTerm(

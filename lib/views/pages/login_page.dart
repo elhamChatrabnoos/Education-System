@@ -1,13 +1,15 @@
 import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
-import 'package:amuzesh_system/pages/home/home_view.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
-import 'package:amuzesh_system/pages/sign_up_page.dart';
+import 'package:amuzesh_system/views/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/login_sign_up_provider.dart';
-import '../views/custom_button.dart';
-import '../views/custom_text_field.dart';
+
+import '../../providers/login_sign_up_provider.dart';
+import '../custom_button.dart';
+import '../custom_text_field.dart';
+import 'home/home_view.dart';
+
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);

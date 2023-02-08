@@ -4,10 +4,10 @@ import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import '../providers/login_sign_up_provider.dart';
-import '../views/custom_button.dart';
-import '../views/custom_checkbox.dart';
-import '../views/custom_text_field.dart';
+import '../../providers/login_sign_up_provider.dart';
+import '../custom_button.dart';
+import '../custom_checkbox.dart';
+import '../custom_text_field.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatelessWidget {

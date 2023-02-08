@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../core/constants.dart';
-import '../models/class_model.dart';
-import '../providers/class_provider.dart';
-import '../views/custom_dialog.dart';
-import '../views/custom_list_item_class.dart';
+
+import '../../core/constants.dart';
+import '../../models/class_model.dart';
+import '../../providers/class_provider.dart';
+import '../custom_dialog.dart';
+import '../custom_list_item_class.dart';
 
 class ClassPage extends StatefulWidget {
   const ClassPage({Key? key}) : super(key: key);
