@@ -2,7 +2,7 @@ import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/models/class_model.dart';
 import 'package:amuzesh_system/models/term_model.dart';
-import 'package:amuzesh_system/pages/home_page.dart';
+import 'package:amuzesh_system/pages/home/home_view.dart';
 import 'package:amuzesh_system/pages/term_page.dart';
 import 'package:amuzesh_system/providers/class_provider.dart';
 import 'package:amuzesh_system/providers/term_page_provider.dart';
@@ -60,13 +60,14 @@ class AddEditTerm extends StatelessWidget {
     return ElevatedButton(
         onPressed: () {
           if (provider.editeTerm(selectedTerm!, inputClassList)) {
-            _backHomePage(context, provider);
+            provider.getTermUnits(selectedTerm!);
+            Navigator.pop(context);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(AppTexts.classLimitationMsg)));
           }
         },
-        child: const Text('save'));
+        child: Text(AppTexts.saveButtonTxt));
   }
 
   Future<dynamic> _backHomePage(
@@ -74,10 +75,7 @@ class AddEditTerm extends StatelessWidget {
     return Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(
-            termPageProvider: provider,
-            backFromOtherPage: true,
-          ),
+          builder: (context) => HomeView(),
         ));
   }
 

@@ -16,22 +16,20 @@ class ClassPage extends StatefulWidget {
 class _ClassPageState extends State<ClassPage> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ClassesProvider(),
-        child: Consumer<ClassesProvider>(
+    return Consumer<ClassesProvider>(
           builder: (context, provider, child) {
             return Scaffold(
               body: listViewItems(provider),
               floatingActionButton: floatingButtonClick(context, provider),
             );
           },
-        ));
+        );
+    // );
   }
 
-  FloatingActionButton floatingButtonClick(
-      BuildContext context, ClassesProvider provider) {
+  Widget floatingButtonClick(BuildContext context, ClassesProvider provider) {
     return FloatingActionButton(
-      onPressed: () => _showAddDialog(context, provider),
+      onPressed: () => _showAddDialog(provider),
       backgroundColor: Constants.primaryColor,
       child: const Icon(Icons.add, color: Colors.white),
     );
@@ -54,17 +52,17 @@ class _ClassPageState extends State<ClassPage> {
     );
   }
 
-  Future<void> _showAddDialog(BuildContext context, ClassesProvider provider) {
+  Future<void> _showAddDialog(ClassesProvider provider) {
     return showDialog(
       context: context,
-      builder: (context) => CustomDialog(isAddAction: true),
+      builder: (_) => CustomDialog(isAddAction: true),
     ).then((value) {
-        ClassModel model = ClassModel(
+      ClassModel model = ClassModel(
           className: value['className'],
           unitNumber: value['classUnit'],
           teacherName: value['teacherName'],
           classSelected: false);
-        provider.addClass(model);
+      provider.addClass(model);
     });
   }
 

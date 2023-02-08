@@ -4,8 +4,6 @@ class ClassModel {
   String? teacherName;
   bool? classSelected;
 
-  static List<ClassModel> listOfClass = [];
-
   ClassModel(
       {this.className, this.unitNumber, this.teacherName, this.classSelected});
 }
@@ -13,17 +11,17 @@ class ClassModel {
 List<ClassModel> classList = [
   ClassModel(
       className: 'Artificial Intelligent',
-      unitNumber: 3,
+      unitNumber: 5,
       teacherName: 'Elon Musk',
       classSelected: false),
   ClassModel(
       className: 'Mathematics',
-      unitNumber: 4,
+      unitNumber: 5,
       teacherName: 'Jack ma',
       classSelected: false),
   ClassModel(
       className: 'Web Design',
-      unitNumber: 2,
+      unitNumber: 5,
       teacherName: 'Jeff bezos',
       classSelected: false),
   ClassModel(

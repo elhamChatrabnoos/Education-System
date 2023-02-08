@@ -5,44 +5,27 @@ import 'package:amuzesh_system/providers/term_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../core/app_texts.dart';
 import '../views/custom_list_item.dart';
 
 class TermPage extends StatelessWidget {
-  TermPage({Key? key, this.termPageProvider, this.backFromOtherPage = false})
-      : super(key: key);
-
-  TermPageProvider? termPageProvider;
-  final bool backFromOtherPage;
+  const TermPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return backFromOtherPage
-        ? ChangeNotifierProvider.value(
-            value: termPageProvider,
-            child: Scaffold(
-                body: _listItemsBody(),
-                floatingActionButton: _floatingButton(context)
-            ))
-        : ChangeNotifierProvider(
-            create: (BuildContext context) => TermPageProvider(),
-            child: Scaffold(
-                body: _listItemsBody(),
-                floatingActionButton: _floatingButton(context)
-            ));
+    return Scaffold(
+        body: _listOfTerms(), floatingActionButton: _floatingButton(context));
   }
 
   Widget _floatingButton(BuildContext context) {
     return Consumer<TermPageProvider>(
-      builder: (context, value, child) {
+      builder: (context, provider, child) {
         return FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddEditTerm(
-                          inputClassList: classList,
-                          termPageProvider: value,
-                        )));
+            if (!provider.addTerm()) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(AppTexts.extraTermMsg)));
+            }
           },
           backgroundColor: Constants.primaryColor,
           child: const Icon(Icons.add, color: Colors.white),
@@ -51,7 +34,7 @@ class TermPage extends StatelessWidget {
     );
   }
 
-  Widget _listItemsBody() {
+  Widget _listOfTerms() {
     return Consumer<TermPageProvider>(
       builder: (context, provider, child) {
         return GridView.builder(
@@ -62,29 +45,29 @@ class TermPage extends StatelessWidget {
           ),
           itemCount: provider.termList.length,
           itemBuilder: (context, index) {
-            return eachListItem(provider, index, context);
+            return _eachTermItem(provider, index, context);
           },
         );
       },
     );
   }
 
-  InkWell eachListItem(
+  InkWell _eachTermItem(
       TermPageProvider provider, int index, BuildContext context) {
     return InkWell(
         child: CustomListItem(
             onDeleteTap: () => provider.deleteTerm(provider.termList[index]),
             textName: provider.termList[index].name!,
-            classNumber: provider
-                .getClassOfTerm(provider.termList[index].classList!)
-                .length
-                .toString()),
+            classNumber:
+                provider.getTermUnits(provider.termList[index]).toString()),
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => AddEditTerm(
                       termPageProvider: provider,
-                      inputClassList: provider.termList[index].classList!,
+                      selectedTerm: provider.termList[index],
+                      inputClassList: provider
+                          .getClassOfTerm(provider.termList[index].classList!),
                     ))));
   }
 }

@@ -1,17 +1,17 @@
 import 'package:amuzesh_system/core/constants.dart';
-import 'package:amuzesh_system/pages/home_page.dart';
+import 'package:amuzesh_system/pages/home/home_view.dart';
 import 'package:flutter/material.dart';
 
-import 'login_page.dart';
+import 'home/home_page.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Constants.primaryColor,
           focusColor: Colors.white,
           scaffoldBackgroundColor: Constants.backColor),
-      home: LoginPage(),
+      home: const HomePage(),
     );
   }
 }

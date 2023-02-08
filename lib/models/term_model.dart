@@ -6,5 +6,4 @@ class TermModel{
 
   TermModel(this.name, this.classList);
 
-  TermModel.simpleConstructor();
 }

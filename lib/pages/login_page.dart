@@ -1,6 +1,6 @@
 import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
-import 'package:amuzesh_system/pages/home_page.dart';
+import 'package:amuzesh_system/pages/home/home_view.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
 import 'package:amuzesh_system/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Padding loginBody(BuildContext context, LoginSignUpProvider provider) {
+  Widget loginBody(BuildContext context, LoginSignUpProvider provider) {
     return Padding(
         padding: const EdgeInsets.all(40),
         child: Form(
@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
         ));
   }
 
-  Row buttons(BuildContext context, LoginSignUpProvider provider) {
+  Widget buttons(BuildContext context, LoginSignUpProvider provider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -66,7 +66,7 @@ class LoginPage extends StatelessWidget {
           onTap: () {
             if (provider.checkFieldValidation()) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+                  context, MaterialPageRoute(builder: (context) => HomeView()));
             }
           },
         ),

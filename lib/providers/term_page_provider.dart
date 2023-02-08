@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 
 class TermPageProvider extends ChangeNotifier {
   // a model with empty list
-  TermModel _selectedTerm = TermModel('Term 1', ClassModel.listOfClass);
+  static List<ClassModel> listOfClass = [];
+
+  TermModel _selectedTerm = TermModel('Term 1', listOfClass);
   int _selectedTermIndex = 0;
   List<TermModel> _termList = [];
+  int termUnits = 0;
 
   TermPageProvider() {
     List<ClassModel>? classListTerm1 = [];
@@ -98,16 +101,17 @@ class TermPageProvider extends ChangeNotifier {
   }
 
 
-  int getTermUnits(TermModel termModel){
-    int termUnits = 0;
+  int getTermUnits(TermModel termModel) {
+    termUnits = 0;
     for (var element in termModel.classList!) {
       termUnits += element.unitNumber!;
     }
     return termUnits;
   }
 
-////////// getters and setters
 
+
+////////// getters and setters
   int get selectedTermIndex => _selectedTermIndex;
 
   set selectedTermIndex(int value) {
