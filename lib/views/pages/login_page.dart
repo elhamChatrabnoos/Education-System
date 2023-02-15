@@ -1,6 +1,7 @@
 import 'package:amuzesh_system/core/app_texts.dart';
 import 'package:amuzesh_system/core/constants.dart';
 import 'package:amuzesh_system/views/custom_text.dart';
+import 'package:amuzesh_system/views/pages/home/home_page.dart';
 import 'package:amuzesh_system/views/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class LoginPage extends StatelessWidget {
           onTap: () {
             if (provider.checkFieldValidation()) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomeView()));
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
             }
           },
         ),

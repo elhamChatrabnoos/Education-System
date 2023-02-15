@@ -12,25 +12,18 @@ class TermPageProvider extends ChangeNotifier {
   int termUnits = 0;
 
   TermPageProvider() {
-    List<ClassModel>? classListTerm1 = [];
-    List<ClassModel>? classListTerm2 = [];
-    List<ClassModel>? classListTerm3 = [];
-    List<ClassModel>? classListTerm4 = [];
-
     _termList = [
-      TermModel('Term 1', classListTerm1),
-      TermModel('Term 2', classListTerm2),
-      TermModel('Term 3', classListTerm3),
-      TermModel('Term 4', classListTerm4),
+      TermModel('Term 1', []),
+      TermModel('Term 2', []),
+      TermModel('Term 3', []),
+      TermModel('Term 4', []),
     ];
   }
-
 
   void deleteTerm(TermModel term) {
     termList.remove(term);
     notifyListeners();
   }
-
 
   bool addTerm() {
     List<ClassModel> classList = [];
@@ -45,7 +38,7 @@ class TermPageProvider extends ChangeNotifier {
         }
       }
       if (!thereIs) {
-        if(i < 10){
+        if (i < 10) {
           termList.add(termModel);
           notifyListeners();
           return true;
@@ -54,7 +47,6 @@ class TermPageProvider extends ChangeNotifier {
     }
     return false;
   }
-
 
   bool editeTerm(TermModel term, List<ClassModel> classList) {
     int unitNumber = 0;
@@ -70,13 +62,10 @@ class TermPageProvider extends ChangeNotifier {
     return false;
   }
 
-
   bool searchInClassOfTerm(
       List<ClassModel> classOfTermList, ClassModel classModel) {
-    print(classOfTermList.length);
     return classOfTermList.contains(classModel);
   }
-
 
   void selectClassForTerm(
       ClassModel classModel, bool isChecked, List<ClassModel> classOfTerm) {
@@ -100,7 +89,6 @@ class TermPageProvider extends ChangeNotifier {
     return listOfClass;
   }
 
-
   int getTermUnits(TermModel termModel) {
     termUnits = 0;
     for (var element in termModel.classList!) {
@@ -108,8 +96,6 @@ class TermPageProvider extends ChangeNotifier {
     }
     return termUnits;
   }
-
-
 
 ////////// getters and setters
   int get selectedTermIndex => _selectedTermIndex;

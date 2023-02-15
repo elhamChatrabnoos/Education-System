@@ -1,4 +1,5 @@
 import 'package:amuzesh_system/core/constants.dart';
+import 'package:amuzesh_system/views/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 import 'home/home_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Constants.primaryColor,
           focusColor: Colors.white,
           scaffoldBackgroundColor: Constants.backColor),
-      home: const HomePage(),
+      home: LoginPage(),
     );
   }
 }

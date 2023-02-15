@@ -67,8 +67,7 @@ class TermPage extends StatelessWidget {
                 builder: (context) => AddEditTerm(
                       termPageProvider: provider,
                       selectedTerm: provider.termList[index],
-                      inputClassList: provider
-                          .getClassOfTerm(provider.termList[index].classList!),
+                      inputClassList: provider.getClassOfTerm(provider.termList[index].classList!),
                     ))));
   }
 }

@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
 
   Widget wholeBody() {
     return Consumer<TermPageProvider>(
-      builder: (context, provider, child) {
+      builder: (_, provider, child) {
         return const TabBarView(
           children: <Widget>[TermPage(), ClassPage()],
         );

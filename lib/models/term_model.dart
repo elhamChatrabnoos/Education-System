@@ -5,5 +5,4 @@ class TermModel{
   List<ClassModel>? classList;
 
   TermModel(this.name, this.classList);
-
 }
