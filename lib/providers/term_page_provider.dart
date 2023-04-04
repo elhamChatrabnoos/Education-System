@@ -3,7 +3,7 @@ import 'package:amuzesh_system/models/term_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class TermPageProvider extends ChangeNotifier {
-  // a model with empty list
+
   static List<ClassModel> listOfClass = [];
 
   TermModel _selectedTerm = TermModel('Term 1', listOfClass);
